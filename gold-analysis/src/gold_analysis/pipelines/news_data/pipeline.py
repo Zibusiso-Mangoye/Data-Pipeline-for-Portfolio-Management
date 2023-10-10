@@ -13,8 +13,8 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 name="get_article_links",
                 func=parse_page,
-                inputs=["params:base_url", "params:start_page_number", "params:end_page_number"],
-                outputs=["article_links"],
+                inputs=["params:base_url", "params:start_page", "params:end_page"],
+                outputs=["article_links", "failed_page_links"],
             ),
             node(
                 name="get_article_data",

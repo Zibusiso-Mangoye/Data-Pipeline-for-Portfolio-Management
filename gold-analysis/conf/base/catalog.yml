@@ -2,6 +2,10 @@ article_links:
   type: pandas.CSVDataSet
   filepath: data/01_raw/article_links.csv
 
+failed_page_links:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/failed_page_links.csv
+
 article_data:
   type: pandas.CSVDataSet
   filepath: data/02_intermediate/article_data.csv

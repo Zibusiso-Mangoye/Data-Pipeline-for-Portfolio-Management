@@ -1,3 +1,3 @@
 base_url : "https://www.reuters.com/news/archive/goldMktRpt"
-start_page_number : 1
-end_page_number : 394
+start_page : 1
+end_page : 394
