@@ -1,3 +1,4 @@
 base_url : "https://www.reuters.com/news/archive/goldMktRpt"
+base_article_url : "https://www.reuters.com/article/global-precious"
 start_page : 1
-end_page : 394
+end_page : 60

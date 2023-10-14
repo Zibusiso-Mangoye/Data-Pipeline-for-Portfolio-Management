@@ -19,8 +19,8 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 name="get_article_data",
                 func=parse_article_links,
-                inputs="article_links",
-                outputs="article_data",
+                inputs=["params:base_article_url", "article_links"],
+                outputs=["article_data", "failed_article_links"],
             ),
             node(
                 name="process_article_data",

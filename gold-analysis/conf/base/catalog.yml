@@ -9,8 +9,10 @@ failed_page_links:
 article_data:
   type: pandas.CSVDataSet
   filepath: data/02_intermediate/article_data.csv
-  load_args:
-    sep: ','
+
+failed_article_links:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/failed_article_links.csv
 
 processed_article_data:
   type: pandas.CSVDataSet
