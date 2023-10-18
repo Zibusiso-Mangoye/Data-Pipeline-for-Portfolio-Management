@@ -7,22 +7,18 @@ failed_page_links:
   filepath: data/01_raw/failed_page_links.csv
 
 article_data:
-  type: pandas.CSVDataSet
-  filepath: data/02_intermediate/article_data.csv
+  type: pandas.JSONDataSet
+  filepath: data/02_intermediate/article_data.json
 
 failed_article_links:
   type: pandas.CSVDataSet
   filepath: data/02_intermediate/failed_article_links.csv
 
 processed_article_data:
-  type: pandas.CSVDataSet
-  filepath: data/02_intermediate/processed_article_data.csv
-  load_args:
-    sep: ','
+  type: pandas.JSONDataSet
+  filepath: data/02_intermediate/processed_article_data.json
 
 articles:
   type: pandas.CSVDataSet
   filepath: s3://gold-analysis-bucket/raw_data/processed_article_data.csv
   credentials: s3_bucket
-  load_args:
-    sep: ','

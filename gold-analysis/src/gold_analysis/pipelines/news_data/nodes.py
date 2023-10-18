@@ -116,13 +116,6 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
             article_info['link'] = article_link
             article_info['headline'] = json_data['headline']
             
-            if type(json_data['author']) == list:
-                article_info['author'] = json_data['author'][0]['name']
-                article_info['type_of_author'] = json_data['author'][0]['@type']
-            else:
-                article_info['author'] = json_data['author']['name']
-                article_info['type_of_author'] = json_data['author']['@type']
-            
             article_pre_tag = article_soup.find('pre')
             if article_pre_tag:
                 article_text = article_pre_tag.text
@@ -130,7 +123,7 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
             else:
                 article_tag = article_soup.find('article')
                 if article_tag:
-                    article_content = article_tag.find_all('p', 'Paragraph-paragraph-2Bgue ArticleBody-para-TD_9x')
+                    article_content = article_tag.find_all('p')
                 else:
                     article_content = article_soup.find('div', class_='StandardArticleBody_body')
                 
@@ -138,6 +131,14 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
                 article_text = ' '.join(article_paragraphs)
                 
             article_info['full_text'] = article_text
+
+            if type(json_data['author']) == list:
+                article_info['author'] = json_data['author'][0]['name']
+                article_info['type_of_author'] = json_data['author'][0]['@type']
+            else:
+                article_info['author'] = json_data['author']['name']
+                article_info['type_of_author'] = json_data['author']['@type']
+                
             article_info_list.append(article_info)
             logging.info(f"Sucessfully got article infor : {url}")
         else:
@@ -154,6 +155,13 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
     return [article_info_df, failed_article_links_df]
 
 def process_article_data(article_data):
+    # split the 'datePublished' into two columns date and time
+    # make date the index
+
+    # Drop duplicates by "headline" column
+    # replace \n with "" in full text column
+    # replace double space with single space
+    
     pass
 
 def upload_article_data(processed_article_data):
