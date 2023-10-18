@@ -1,0 +1,7 @@
+url : https://api.twelvedata.com/time_series
+market_data:
+  symbol: XAU/USD
+  interval: 15min
+  timezone: UTC
+  start_date: 2023-05-12
+  end_date: 2023-10-13

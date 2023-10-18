@@ -1,3 +1,4 @@
+# DataSets for news data pipeline
 article_links:
   type: pandas.CSVDataSet
   filepath: data/01_raw/article_links.csv
@@ -22,7 +23,7 @@ processed_article_data:
   type: pandas.JSONDataSet
   filepath: data/02_intermediate/processed_article_data.json
   layer : Intermediate
-  
+
 article_data_with_sentiment:
   type: pandas.JSONDataSet
   filepath: data/02_intermediate/article_data_with_sentiment.json
@@ -33,3 +34,10 @@ articles:
   filepath: s3://gold-analysis-bucket/raw_data/processed_article_data.csv
   credentials: s3_bucket
   layer : Reporting
+
+# DataSets for market data pipeline
+
+market_data:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/market_data.csv
+  layer : Raw
