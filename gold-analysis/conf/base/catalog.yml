@@ -1,24 +1,35 @@
 article_links:
   type: pandas.CSVDataSet
   filepath: data/01_raw/article_links.csv
+  layer : Raw
 
 failed_page_links:
   type: pandas.CSVDataSet
   filepath: data/01_raw/failed_page_links.csv
+  layer : Raw
 
 article_data:
   type: pandas.JSONDataSet
   filepath: data/02_intermediate/article_data.json
+  layer : Intermediate
 
 failed_article_links:
   type: pandas.CSVDataSet
   filepath: data/02_intermediate/failed_article_links.csv
+  layer : Intermediate
 
 processed_article_data:
   type: pandas.JSONDataSet
   filepath: data/02_intermediate/processed_article_data.json
+  layer : Intermediate
+  
+article_data_with_sentiment:
+  type: pandas.JSONDataSet
+  filepath: data/02_intermediate/article_data_with_sentiment.json
+  layer : Intermediate
 
 articles:
   type: pandas.CSVDataSet
   filepath: s3://gold-analysis-bucket/raw_data/processed_article_data.csv
   credentials: s3_bucket
+  layer : Reporting

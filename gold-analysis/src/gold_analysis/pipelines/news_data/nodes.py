@@ -164,5 +164,9 @@ def process_article_data(article_data):
     
     pass
 
+def sentiment_on_article_data(process_article_data):
+    # Perfom sentiment analysis
+    pass
+
 def upload_article_data(processed_article_data):
     pass
