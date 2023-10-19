@@ -21,9 +21,8 @@ def send_http_request(url: str, headers: Optional[dict] = None, params: Optional
         Response: A Response object representing the HTTP response.
     """
     try:
-        payload = {'api_key': '08cb29e39156615d00f0dfd387c865cd', 'url': url}
-        response = requests.get('http://api.scraperapi.com', params=payload)
-        # response = session.get(url, headers=headers, params=params)
+        response = session.get(url, headers=headers, params=params)
+        response.raise_for_status()
         return response
     except requests.exceptions.RequestException as e:
         logging.error(f"HTTP Request Error: {e}")
