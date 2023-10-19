@@ -20,18 +20,20 @@ failed_article_links:
   layer : Intermediate
 
 processed_article_data:
-  type: pandas.JSONDataSet
-  filepath: data/02_intermediate/processed_article_data.json
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/processed_article_data.csv
   layer : Intermediate
+  save_args:
+    index : True
 
 article_data_with_sentiment:
-  type: pandas.JSONDataSet
-  filepath: data/02_intermediate/article_data_with_sentiment.json
-  layer : Intermediate
+  type: pandas.CSVDataSet
+  filepath: data/05_reporting/article_data_with_sentiment.csv
+  layer : Reporting
 
 articles:
   type: pandas.CSVDataSet
-  filepath: s3://gold-analysis-bucket/raw_data/processed_article_data.csv
+  filepath: s3://gold-analysis-bucket/raw_data/article_data.csv
   credentials: s3_bucket
   layer : Reporting
 
@@ -41,3 +43,25 @@ market_data:
   type: pandas.CSVDataSet
   filepath: data/01_raw/market_data.csv
   layer : Raw
+
+processed_market_data:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/processed_market_data.csv
+  layer : Intermediate
+  save_args:
+    index: True
+
+transformed_market_data:
+  type: pandas.CSVDataSet
+  filepath: data/05_reporting/transformed_market_data.csv
+  layer : Reporting
+  save_args:
+    index: True
+
+gold_market_data:
+  type: pandas.CSVDataSet
+  filepath: s3://gold-analysis-bucket/raw_data/market_data.csv
+  credentials: s3_bucket
+  layer : Reporting
+  save_args:
+    index: True

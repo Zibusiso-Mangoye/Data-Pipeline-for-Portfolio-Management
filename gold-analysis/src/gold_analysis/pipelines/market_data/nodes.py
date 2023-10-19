@@ -49,4 +49,23 @@ def get_market_data(url: str, params: dict):
     df = pd.DataFrame(json_data['values'])
     
     return df
+
+def clean_market_data(market_data: pd.DataFrame) -> pd.DataFrame:
     
+    market_data['date'] = pd.to_datetime(market_data['datetime']).dt.date
+    market_data['time'] = pd.to_datetime(market_data['datetime']).dt.time
+    
+    market_data.set_index(["date", "time"], inplace=True)
+    # Drop datetime column
+    market_data.drop(labels="datetime", axis=1,inplace=True)
+    
+    return market_data
+
+def calculate_op_difference(market_data):
+    market_data['oc_difference'] = market_data['close'] - market_data['open']
+    return market_data
+
+def upload_market_data(market_data):
+    # function to upload data to s3
+    # via kedro functionality
+    return market_data

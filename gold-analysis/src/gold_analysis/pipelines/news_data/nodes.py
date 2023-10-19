@@ -113,7 +113,6 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
             json_data = json.loads(article_json_meta_data.contents[0], strict=False)
                 
             article_info['datePublished'] = json_data['datePublished']
-            article_info['link'] = article_link
             article_info['headline'] = json_data['headline']
             
             article_pre_tag = article_soup.find('pre')
@@ -154,15 +153,33 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
     failed_article_links_df = pd.DataFrame(failed_article_links)
     return [article_info_df, failed_article_links_df]
 
-def process_article_data(article_data):
-    # split the 'datePublished' into two columns date and time
-    # make date the index
+def process_article_data(article_data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Clean and transform article data.
 
-    # Drop duplicates by "headline" column
-    # replace \n with "" in full text column
-    # replace double space with single space
+    Parameters:
+        - article_data (pd.DataFrame): A Pandas DataFrame containing article data to be cleaned and transformed .
+
+    Returns:
+        - article_data (pd.DataFrame):  A clean and transformed DataFrame
+    """
+    # split the 'datePublished' into two columns date and time
+    article_data["datePublished"] = article_data["datePublished"].str.replace("Z", "UTC")
+    article_data['date'] = pd.to_datetime(article_data['datePublished']).dt.date
+    article_data['time'] = pd.to_datetime(article_data['datePublished']).dt.time
+
+    # make date and time the index
+    article_data.set_index(["date", "time"], inplace=True)
+
+    # Reordering the columns for better readability
+    article_data = article_data[['headline', 'full_text', 'author', 'type_of_author']]
     
-    pass
+    # clean column full text replacing \n with "" and reducing 
+    # multiple whitespaces to single whitespaces
+    article_data.loc[:, 'full_text'] = article_data['full_text'].str.replace("\n", "")
+    article_data['full_text'] = article_data['full_text'].str.split().str.join(" ")
+    
+    return article_data
 
 def sentiment_on_article_data(process_article_data):
     # Perfom sentiment analysis

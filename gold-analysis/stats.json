@@ -1,1 +1,1 @@
-{"market_data": {"rows": 5000, "columns": 5, "file_size": 320029}}
+{"transformed_market_data": {"rows": 10551, "columns": 8, "file_size": 913150}, "gold_market_data": {"rows": 10551, "columns": 8, "file_size": 961248}}
