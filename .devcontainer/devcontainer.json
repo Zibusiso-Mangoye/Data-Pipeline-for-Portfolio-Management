@@ -7,8 +7,10 @@
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"features": {
 		"ghcr.io/akhildevelops/devcontainer-features/pip:0": {}
+	},
+	"containerEnv": {
+		"TRANSFORMERS_OFFLINE": "1"
 	}
-
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 

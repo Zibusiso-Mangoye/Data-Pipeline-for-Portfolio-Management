@@ -181,8 +181,10 @@ def process_article_data(article_data: pd.DataFrame) -> pd.DataFrame:
     return article_data
 
 def sentiment_on_article_data(process_article_data):
-    # Perfom sentiment analysis
-    pass
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+    tokenizer = AutoTokenizer.from_pretrained("./FinBertModel", repo_type="model", local_files_only=True)
+    model = AutoModelForSequenceClassification.from_pretrained("./FinBertModel", local_files_only=True)
 
 def upload_article_data(processed_article_data):
     pass
