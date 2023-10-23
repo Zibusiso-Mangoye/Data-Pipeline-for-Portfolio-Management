@@ -53,7 +53,7 @@ def parse_page(base_url: str, start_page_number: int, end_page_number: int) -> L
 
     for page in range(start_page_number, end_page_number + 1):
 
-        page_html: Response = send_http_request(base_url, params={'page': page})
+        page_html = send_http_request(base_url, params={'page': page})
         if page_html.status_code == 200:
             logging.info(f"page url : {page_html.url}")
 
@@ -138,7 +138,7 @@ def parse_article_links(article_links: pd.DataFrame) -> List[pd.DataFrame]:
                 article_info['type_of_author'] = json_data['author']['@type']
                 
             article_info_list.append(article_info)
-            logging.info(f"Sucessfully got article infor : {url}")
+            logging.info(f"Sucessfully got article infor : {article_link}")
         else:
             logging.info(f"failed to get article html for article with link: {article_html.url}")
             
@@ -181,10 +181,13 @@ def process_article_data(article_data: pd.DataFrame) -> pd.DataFrame:
     return article_data
 
 def sentiment_on_article_data(process_article_data):
+    import os
     from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-    tokenizer = AutoTokenizer.from_pretrained("./FinBertModel", repo_type="model", local_files_only=True)
-    model = AutoModelForSequenceClassification.from_pretrained("./FinBertModel", local_files_only=True)
+    CODE_DIR = os.path.dirname('04_models')
+    print(CODE_DIR)
+    tokenizer = AutoTokenizer.from_pretrained("/gold_analysis/pipelines/news_data/FinBertModel/config.json", repo_type="model", local_files_only=True)
+    model = AutoModelForSequenceClassification.from_pretrained("gold-analysis/data/04_models/FinBertModel", repo_type="model", local_files_only=True)
 
 def upload_article_data(processed_article_data):
     pass
