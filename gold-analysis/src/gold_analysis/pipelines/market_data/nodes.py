@@ -2,11 +2,9 @@ import json
 import requests
 import logging
 import pandas as pd
-from bs4 import BeautifulSoup
 from typing import List, Optional
 
 from pathlib import Path
-
 from kedro.config import ConfigLoader
 from kedro.framework.project import settings
 

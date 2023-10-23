@@ -10,14 +10,14 @@ failed_page_links:
   layer : Raw
 
 article_data:
-  type: pandas.JSONDataSet
-  filepath: data/02_intermediate/article_data.json
-  layer : Intermediate
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/article_data.csv
+  layer : Raw
 
 failed_article_links:
   type: pandas.CSVDataSet
-  filepath: data/02_intermediate/failed_article_links.csv
-  layer : Intermediate
+  filepath: data/01_raw/failed_article_links.csv
+  layer : Raw
 
 processed_article_data:
   type: pandas.CSVDataSet

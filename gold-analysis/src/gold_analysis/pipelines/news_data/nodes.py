@@ -6,6 +6,13 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from typing import List, Optional
 
+from pathlib import Path
+from kedro.config import ConfigLoader
+from kedro.framework.project import settings
+
+conf_path = str(Path("/workspaces/Data-Pipeline-for-Portfolio-Management/gold-analysis") / settings.CONF_SOURCE)
+conf_loader = ConfigLoader(conf_source=conf_path)
+credentials = conf_loader["credentials"]
 
 session = requests.Session()
 def send_http_request(url: str, headers: Optional[dict] = None, params: Optional[dict] = None) -> requests.Response:
@@ -173,9 +180,29 @@ def process_article_data(article_data: pd.DataFrame) -> pd.DataFrame:
     # Reordering the columns for better readability
     article_data = article_data[['headline', 'full_text', 'author', 'type_of_author']]
     
-    # clean column full text replacing \n with "" and reducing 
-    # multiple whitespaces to single whitespaces
+    # clean column full text replacing \n with "" 
     article_data.loc[:, 'full_text'] = article_data['full_text'].str.replace("\n", "")
+    
+    # removing 'by' lines at the beginning and at the end
+    def remove_reporter_info(text):
+         
+        # Split the text using the 'Reporting by' and '(Reuters) -' substrings
+        sub_str = "Reporting by"
+        sub_str2 = "(Reuters) -"
+        re = text.split(sub_str)
+        re = re[0].split(sub_str2)
+        return re[1]
+
+    # Apply the function to the 'full_text' column
+    article_data['full_text'] = article_data['full_text'].apply(remove_reporter_info)
+    
+    # replace any asteristics with nothing
+    article_data.loc[:, 'full_text'] = article_data['full_text'].str.replace("*", "")
+    
+    # replace any extra "" with nothing
+    article_data.loc[:, 'full_text'] = article_data['full_text'].str.replace('"', '')
+    
+    # reducing multiple whitespaces to single whitespaces
     article_data['full_text'] = article_data['full_text'].str.split().str.join(" ")
     
     return article_data
