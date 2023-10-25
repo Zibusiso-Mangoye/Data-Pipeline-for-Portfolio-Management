@@ -6,7 +6,6 @@ generated using Kedro 0.18.13
 from kedro.pipeline import Pipeline, pipeline, node
 from .nodes import parse_page, parse_article_links, process_article_data, upload_article_data, sentiment_on_article_data
 
-
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
