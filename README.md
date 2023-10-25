@@ -26,6 +26,10 @@ The market data pipeline
 
 ![img2](img/kedro-pipelines.png)
 
+### Results after runnning pipeline
+![img2](img/data-in-s3.jpg)
+
+
 ## Usage
 ### Prequisites
 - [Docker](https://www.docker.com/get-started/) installed on your pc
@@ -35,6 +39,9 @@ To get these pipelines up and running you have to run the following command:
 ```
 kedro run
 ```
+
+To learn how to set up a kedro project visit https://docs.kedro.org/en/stable/get_started/install.html
+ 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
