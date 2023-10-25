@@ -1,4 +1,5 @@
 import json
+import openai
 import requests
 import hashlib
 import logging
@@ -14,6 +15,21 @@ conf_path = str(Path("/workspaces/Data-Pipeline-for-Portfolio-Management/gold-an
 conf_loader = ConfigLoader(conf_source=conf_path)
 credentials = conf_loader["credentials"]
 
+def summarize_article(article_text):
+    """
+        Uses chagpt to summarize text
+    """
+    openai.api_key = credentials['openai_api_key']
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", 
+        messages=[{"role": "system", "content": "You are an expert financial journalist"},
+                  {"role": "user", "content": f"Summarize the following article : {article_text}"}],
+        max_tokens=512, 
+        temperature=0.1,
+    )
+
+    return response['choices'][0]['message']["content"]
 session = requests.Session()
 def send_http_request(url: str, headers: Optional[dict] = None, params: Optional[dict] = None) -> requests.Response:
     """
@@ -205,16 +221,15 @@ def process_article_data(article_data: pd.DataFrame) -> pd.DataFrame:
     # reducing multiple whitespaces to single whitespaces
     article_data['full_text'] = article_data['full_text'].str.split().str.join(" ")
     
+    # summarize the full text of a article to words not longer 512
+    article_data['summary'] = article_data['full_text'].apply(summarize_article)
+    
     return article_data
 
 def sentiment_on_article_data(process_article_data):
-    import os
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
-    CODE_DIR = os.path.dirname('04_models')
-    print(CODE_DIR)
-    tokenizer = AutoTokenizer.from_pretrained("/gold_analysis/pipelines/news_data/FinBertModel/config.json", repo_type="model", local_files_only=True)
-    model = AutoModelForSequenceClassification.from_pretrained("gold-analysis/data/04_models/FinBertModel", repo_type="model", local_files_only=True)
-
-def upload_article_data(processed_article_data):
+    # locate sentiment_analysis notebook in the notebooks directory
     pass
+    
+def upload_article_data(processed_article_data):
+    # Uploading to s3 automatically using kedro catalog
+    return processed_article_data
